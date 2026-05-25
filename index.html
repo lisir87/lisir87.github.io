@@ -1,1 +1,502 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>龟类图鉴 | 乌龟种类介绍</title>
+    <!-- 使用简洁的现代风格，Google Fonts 增强可读性 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #eef5e8 0%, #d9e6cf 100%);
+            color: #1e2f1c;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        /* 头部区域 */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 1rem 0 0.5rem;
+            border-bottom: 2px solid #b8d0a8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2b5e2b, #5a8f4c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #3a5c2e;
+            max-width: 680px;
+            font-weight: 400;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 装饰龟纹小标 */
+        .subhead {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .subhead span {
+            font-size: 1.5rem;
+        }
+
+        /* 介绍卡片网格 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0 3rem;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(160, 190, 130, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 32px -16px rgba(40, 60, 20, 0.25);
+            background: white;
+            border-color: #8bb56a;
+        }
+
+        /* 图片区域 */
+        .card-img {
+            width: 100%;
+            height: 220px;
+            background-color: #cfdec2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s;
+        }
+
+        /* 由于无法加载真实外部图片（演示），使用svg / emoji + 渐变背景模拟不同龟种风格，保证视觉优雅 */
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            background: linear-gradient(125deg, #c7e0b0, #aacf8e);
+            color: #2c4822;
+            transition: all 0.2s;
+        }
+
+        /* 不同种类单独主题微调 */
+        .card[data-type="sea"] .img-placeholder { background: linear-gradient(125deg, #97c8e8, #6aabd2); color: #fef7e0; }
+        .card[data-type="tortoise"] .img-placeholder { background: linear-gradient(125deg, #e0cba0, #c9aa6f); color: #3a2a1c; }
+        .card[data-type="freshwater"] .img-placeholder { background: linear-gradient(125deg, #b8dcb4, #8fc282); color: #1f4720; }
+        .card[data-type="snapping"] .img-placeholder { background: linear-gradient(125deg, #a7a77c, #7f754a); color: #2f2f1c; }
+        .card[data-type="softshell"] .img-placeholder { background: linear-gradient(125deg, #b19f7e, #947c5a); color: #2f2a1f; }
+
+        .card-img .img-placeholder span {
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+        }
+
+        /* 内容区域 */
+        .card-content {
+            padding: 1.5rem 1.3rem 1.6rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card h2 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1c3e17;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .scientific {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #5f7355;
+            font-style: italic;
+            background: #eef3e8;
+            padding: 0.2rem 0.5rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e0b33c20;
+            color: #795d2c;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.7rem;
+            border-radius: 40px;
+            margin: 8px 0 12px 0;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(2px);
+            width: fit-content;
+            border: 0.5px solid #dbb45c;
+        }
+
+        .description {
+            font-size: 0.94rem;
+            line-height: 1.45;
+            color: #2a3a24;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.6rem;
+            border-top: 1px dashed #cbdcc0;
+            padding-top: 0.8rem;
+            font-size: 0.8rem;
+            color: #4a6741;
+        }
+
+        .info-item {
+            background: #eef3e9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-item strong {
+            font-weight: 600;
+            color: #1f4f1a;
+        }
+
+        .status {
+            font-weight: 600;
+            background: #ffe5cc;
+            color: #b65c1a;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: #4d6941;
+            border-top: 1px solid #bdd6ac;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .card h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* 引文 */
+        .footnote {
+            background: #eef3e8;
+            padding: 1rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>🐢 龟类图鉴 · 世界乌龟种类</h1>
+        <div class="subhead">
+            <span>🌿 陆龟</span> <span>🌊 海龟</span> <span>💧 淡水龟</span> <span>🐊 鳄龟</span>
+        </div>
+        <p>从热带海域到干旱沙漠，乌龟是地球上最古老且迷人的爬行动物之一。探索以下代表性品种，了解它们的栖息地与独特魅力。</p>
+    </div>
+
+    <div class="grid">
+        <!-- 加拉帕戈斯象龟 —— 陆龟代表 -->
+        <div class="card" data-type="tortoise">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🐢🌵</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>加拉帕戈斯象龟 <span class="scientific">Chelonoidis niger</span></h2>
+                <div class="badge">🏝️ 巨型陆龟 · 濒危保护</div>
+                <div class="description">
+                    现存体型最大的陆龟之一，成年个体体重可达400公斤，寿命超过百年。它们以仙人掌、草和水果为食，是加拉帕戈斯群岛的标志性物种，对生态平衡起到关键作用。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 厄瓜多尔 · 加拉帕戈斯群岛</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 易危 (VU)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 绿海龟 —— 海龟代表 -->
+        <div class="card" data-type="sea">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🌊🐢💚</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>绿海龟 <span class="scientific">Chelonia mydas</span></h2>
+                <div class="badge">🌏 大型海栖 · 草食为主</div>
+                <div class="description">
+                    广泛分布于热带及亚热带海域，因体内脂肪呈绿色而得名。成体主要食用海草和藻类，是维护海草床健康的重要物种。绿海龟洄游习性神秘，且濒临威胁。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 大西洋、太平洋、印度洋温暖海域</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 濒危 (EN)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中华草龟 (乌龟) 最经典的本土种类 -->
+        <div class="card" data-type="freshwater">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🍃🐢🌸</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>中华草龟 <span class="scientific">Mauremys reevesii</span></h2>
+                <div class="badge">💧 淡水龟 · 国龟经典</div>
+                <div class="description">
+                    俗称“乌龟”，是我国分布最广的本土龟种。雄性成体在性成熟后体色会逐渐墨化（墨龟）。性格温和，适应力强，常见于池塘、溪流，深受人们喜爱。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 中国、日本、韩国等地</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 濒危 (EN) 野外减少</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 鳄龟 —— 凶猛大块头 -->
+        <div class="card" data-type="snapping">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🐊🐢⚡</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>拟鳄龟 <span class="scientific">Chelydra serpentina</span></h2>
+                <div class="badge">⚠️ 凶猛 · 咬合力强</div>
+                <div class="description">
+                    常见于北美淡水域，以其强大的颚和攻击性闻名。拟鳄龟是机会主义捕食者，食性广泛。注意：作为宠物需谨慎，不可随意放生入侵生态。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 美国东南部、加拿大南部至中美洲</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 无危 (LC) 但部分地区受威胁</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 印度星龟 陆龟花纹漂亮 -->
+        <div class="card" data-type="tortoise">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>⭐🐢🌟</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>印度星龟 <span class="scientific">Geochelone elegans</span></h2>
+                <div class="badge">✨ 星状花纹 · 陆龟宠物明星</div>
+                <div class="description">
+                    背甲上有明显的放射状星形纹，非常美丽。栖息于印度、斯里兰卡的干旱灌木丛和草原。由于宠物贸易和栖息地丧失，野外数量减少。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 印度、斯里兰卡、巴基斯坦东南部</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 易危 (VU)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 猪鼻龟 淡水龟中的奇葩 -->
+        <div class="card" data-type="softshell">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🐽🐢💦</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>猪鼻龟 <span class="scientific">Carettochelys insculpta</span></h2>
+                <div class="badge">🐽 鼻似猪 · 两栖鳍状肢</div>
+                <div class="description">
+                    也被称为“飞河龟”，是唯一完全水栖的淡水龟类。四肢呈桨状，酷似海龟，鼻子像猪。分布于澳大利亚和新几内亚，生性害羞，极度依赖清澈水域。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 澳大利亚北部、新几内亚南部</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 濒危 (EN)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 辐射陆龟 放射纹极致 -->
+        <div class="card" data-type="tortoise">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>☀️🐢🌀</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>辐射陆龟 <span class="scientific">Astrochelys radiata</span></h2>
+                <div class="badge">🌞 马达加斯加珍宝 · 高背纹路</div>
+                <div class="description">
+                    背甲拥有明亮的黄色放射状纹路，非常醒目。仅分布于马达加斯加南部，因栖息地破坏和盗猎而极度濒危。属于华盛顿公约附录I物种。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 马达加斯加岛南部及西南部</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 极危 (CR)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 玳瑁海龟 美丽濒危 -->
+        <div class="card" data-type="sea">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🐢🔶🌊</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>玳瑁 <span class="scientific">Eretmochelys imbricata</span></h2>
+                <div class="badge">🏺 鹰嘴海龟 · 玳瑁工艺威胁</div>
+                <div class="description">
+                    玳瑁的背甲盾片呈覆瓦状排列，色彩斑斓。主要取食海绵，因美丽龟甲遭过度捕杀，全球数量锐减，被列为极度濒危。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 热带珊瑚礁海域</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 极危 (CR)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 密西西比地图龟 趣味淡水龟 -->
+        <div class="card" data-type="freshwater">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🗺️🐢📐</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>密西西比地图龟 <span class="scientific">Graptemys pseudogeographica</span></h2>
+                <div class="badge">🧭 背甲似地图 · 活泼宠物龟</div>
+                <div class="description">
+                    因背甲花纹酷似等高线地图而得名，头部有黄色细纹。主要栖息于美国中部河流、湖泊，偏爱水流较缓的水域。深受水族爱好者喜爱，需要较深水域。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 美国密西西比河流域</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 无危 (LC)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 苏卡达陆龟 第三大陆龟 -->
+        <div class="card" data-type="tortoise">
+            <div class="card-img">
+                <div class="img-placeholder">
+                    <span>🏜️🐢🌾</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <h2>苏卡达陆龟 <span class="scientific">Centrochelys sulcata</span></h2>
+                <div class="badge">🏜️ 沙漠型巨龟 · 挖掘习性</div>
+                <div class="description">
+                    非洲大陆最大的陆龟，也是世界第三大陆龟，性格活泼。善于挖掘洞穴躲避高温。由于宠物贸易及栖息地退化，急需保育管理。
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><strong>📍 分布</strong> 撒哈拉沙漠南缘（萨赫勒地区）</div>
+                    <div class="info-item status"><strong>📊 保护状态</strong> 濒危 (EN)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-note">
+        <div class="footnote">
+            🌟 乌龟是生态多样性的见证者 | 保护龟类，拒绝非法买卖，守护自然栖息地
+        </div>
+        <div style="font-size: 0.75rem; opacity: 0.75;">
+            🧬 以上图文仅供科普展示 · 种类超过356种，本页面精选代表性品种
+        </div>
+    </div>
+</div>
+
+<!-- 添加一点微互动与hover效果，仅用于增强可读性，无复杂js -->
+<script>
+    // 可选：增加简洁的控制台输出说明，无侵入
+    (function() {
+        console.log("🐢 龟类图鉴已加载 — 认识这些奇妙的爬行动物，保护自然从小开始。");
+        // 为卡片增加一点动态说明，当用户点击卡片时可显示轻提示（非侵入）
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // 防止误触内部链接，仅友好反馈，没有任何跳转
+                const title = card.querySelector('h2')?.innerText || '龟种';
+                console.log(`🔍 查看更多关于 ${title} 的知识，欢迎查阅更多资料～`);
+            });
+        });
+    })();
+</script>
+</body>
+</html>
